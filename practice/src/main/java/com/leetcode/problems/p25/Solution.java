@@ -1,5 +1,7 @@
 package com.leetcode.problems.p25;
 
+import java.util.List;
+
 /**
  * @Author: woosang
  * @Date: 2021-03-19 1:38 PM
@@ -18,30 +20,50 @@ package com.leetcode.problems.p25;
  * Output: [2,1,4,3,5]
  */
 public class Solution {
-    public ListNode reverseKGroup(ListNode head, int k) {
-        if(head==null)
-            return head;
-        ListNode cur = head;
-        for(int i=0;i<k;i++){
-            if(cur == null)
-                return head;
-            else
-                cur = cur.next;
-        }
+//    public ListNode reverseKGroup(ListNode head, int k) {
+//        if(head==null)
+//            return head;
+//        ListNode cur = head;
+//        for(int i=0;i<k;i++){
+//            if(cur == null)
+//                return head;
+//            else
+//                cur = cur.next;
+//        }
+//
+//        ListNode pre,next;
+//        if(cur==null)
+//            pre = null;
+//        else
+//            pre = reverseKGroup(cur,k);
+//        cur = head;
+//        int n=k;
+//        while(n-->0){
+//            next = cur.next;
+//            cur.next = pre;
+//            pre = cur;
+//            cur = next;
+//        }
+//        return pre;
+//    }
 
-        ListNode pre,next;
-        if(cur==null)
-            pre = null;
-        else
-            pre = reverseKGroup(cur,k);
-        cur = head;
-        int n=k;
-        while(n-->0){
-            next = cur.next;
-            cur.next = pre;
-            pre = cur;
-            cur = next;
+    public ListNode reverseKGroup(ListNode head ,int k){
+        ListNode curr = head;
+        int count = 0;
+        while (curr != null && count < k) {
+            curr = curr.next;
+            count ++;
         }
-        return pre;
+        if (count == k) {
+            ListNode reversedNext = reverseKGroup(curr, k);
+            while (count-- > 0) {
+                ListNode next = head.next;
+                head.next = reversedNext;
+                reversedNext = head;
+                head = next;
+            }
+            head = reversedNext;
+        }
+        return head;
     }
 }
